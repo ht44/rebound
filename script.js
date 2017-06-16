@@ -20,16 +20,16 @@ const response = [
 ];
 
 const rgbValues = [
-  'rgb(0, 229, 200)',
-  'rgb(19, 206, 182)',
-  'rgb(38, 183, 164)',
-  'rgb(57, 160, 147)',
-  'rgb(76, 137, 129)',
-  'rgb(95, 114, 112)',
-  'rgb(114, 91, 94)',
-  'rgb(133, 68, 76)',
-  'rgb(152, 45, 59)',
-  'rgb(171, 22, 41)'
+  'rgb(255, 0, 0)',
+  'rgb(255, 128, 0)',
+  'rgb(255, 255, 0)',
+  'rgb(128, 255, 0)',
+  'rgb(0, 255, 0)',
+  'rgb(0, 255, 128)',
+  'rgb(0, 255, 255)',
+  'rgb(0, 128, 255)',
+  'rgb(0, 0, 255)',
+  'rgb(127, 0, 255)'
 ];
 
 class Player {
@@ -46,20 +46,23 @@ const clear = document.getElementById('clear');
 const container = document.getElementById('container');
 const court = d3.select('#container')
                 .append('svg')
+                // .style('background-image', 'url(svgs/ultimate.svg), url(images/5965362680_1e541c0e95.jpg)')
                 .style('background-image', 'url(svgs/ultimate.svg)')
                 .style('background-size', 'cover')
+                .style('background-color', 'rgb(47, 71, 62)')
                 .attr('width', 500)
                 .attr('height',  470)
                 .style('border', '3px outset grey')
                 .style('box-shadow', '4px 6px 33px 0px rgba(0,0,0,0.75)')
+                // .style('box-shadow', '2px 2px 23px 7px rgba(0,0,0,0.75)')
                 .on('click', placeOffender)
                 .on('contextmenu', placeDefender);
 
-const hoop = court.append('circle')
-                  .attr('cx', 250)
-                  .attr('cy', 416.5)
-                  .attr('r', 7.5)
-                  .attr('stroke', 'yellow');
+// const hoop = court.append('circle')
+//                   .attr('cx', 250)
+//                   .attr('cy', 416.5)
+//                   .attr('r', 7.5)
+//                   .attr('stroke', 'yellow');
 
 
 trigger.addEventListener('click', logPayload);
@@ -140,6 +143,8 @@ function logPayload() {
         offense.concat(defense)
         .sort((a, b) => a.property('probability') - b.property('probability'))
         .forEach((man, index) => {
+          // let val = man.property('probability') * 255;
+          // let newColor = `rgb(${val}, , 0)`;
           man.transition()
           .duration(1000)
           .ease(d3.easeLinear)
