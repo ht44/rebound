@@ -6,20 +6,19 @@ const payload = {
   bench: new Array()
 }
 
-const response = {
-  data: [
-    {x: 450, y: 400, prob: 8},
-    {x: 150, y: 150, prob: 1},
-    {x: 150, y: 50, prob: 2},
-    {x: 110, y: 330, prob: 9},
-    {x: 400, y: 50, prob: 3},
-    {x: 100, y: 50, prob: 4},
-    {x: 190, y: 70, prob: 7},
-    {x: 140, y: 230, prob: 5},
-    {x: 370, y: 20, prob: 9.9},
-    {x: 260, y: 180, prob: 6}
-  ]
-}
+const response = [
+  {newx: 45, newy: 40, probability: 8},
+  {newx: 15, newy: 15, probability: 1},
+  {newx: 15, newy: 5, probability: 2},
+  {newx: 11, newy: 33, probability: 9},
+  {newx: 40, newy: 5, probability: 3},
+  {newx: 10, newy: 5, probability: 4},
+  {newx: 19, newy: 7, probability: 7},
+  {newx: 14, newy: 23, probability: 5},
+  {newx: 37, newy: 2, probability: 9.9},
+  {newx: 26, newy: 18, probability: 6}
+];
+
 const rgbValues = [
   'rgb(0, 229, 200)',
   'rgb(19, 206, 182)',
@@ -47,8 +46,8 @@ const clear = document.getElementById('clear');
 const container = document.getElementById('container');
 const court = d3.select('#container')
                 .append('svg')
-                // .style('background-image', 'url(http://robslink.com/SAS/democd54/nba_court_dimensions.jpg)')
-                // .style('background-size', 'cover')
+                .style('background-image', 'url(svgs/ultimate.svg)')
+                .style('background-size', 'cover')
                 .attr('width', 500)
                 .attr('height',  470)
                 .style('border', '3px outset grey')
@@ -123,12 +122,13 @@ function placeDefender() {
 }
 
 function logPayload() {
-  let xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://10.8.81.4:9099/predict');
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        let response = JSON.parse(xhr.response);
+  // let xhr = new XMLHttpRequest();
+  // xhr.open('POST', 'http://10.8.81.4:9099/predict');
+  // xhr.onreadystatechange = () => {
+  //   if (xhr.readyState == 4) {
+  //     console.log(xhr.response);
+  //     if (xhr.status == 200) {
+  //       let response = JSON.parse(xhr.response);
         offense.forEach((offender, i) => {
           offender.property('probability', response[offender.attr('id')].probability);
         });
@@ -147,10 +147,10 @@ function logPayload() {
           .attr('cx', response[man.attr('id')].newx * 10)
           .attr('cy', response[man.attr('id')].newy * 10)
         });
-      }
-    }
-  }
-  xhr.send(JSON.stringify(payload));
+  //     }
+  //   }
+  // }
+  // xhr.send(JSON.stringify(payload));
   // console.log(JSON.stringify(payload));
 }
 
