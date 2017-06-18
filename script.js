@@ -20,16 +20,16 @@ const response = [
 ];
 
 const rgbValues = [
-  'rgb(255, 0, 25)',
-  'rgb(225, 0, 50)',
-  'rgb(200, 0, 75)',
-  'rgb(175, 0, 100)',
-  'rgb(150, 0, 125)',
-  'rgb(125, 0, 150)',
-  'rgb(100, 0, 175)',
-  'rgb(75, 0, 200)',
+  'rgb(25, 0, 255)',
   'rgb(50, 0, 225)',
-  'rgb(25, 0, 255)'
+  'rgb(75, 0, 200)',
+  'rgb(100, 0, 175)',
+  'rgb(125, 0, 150)',
+  'rgb(150, 0, 125)',
+  'rgb(175, 0, 100)',
+  'rgb(200, 0, 75)',
+  'rgb(225, 0, 50)',
+  'rgb(255, 0, 25)'
 ];
 
 class Player {
@@ -173,6 +173,9 @@ function logPayload() {
           // let bVal = Math.floor(man.property('probability') * 255);
           // let rVal = Math.floor((1 - man.property('probability')) * 255);
           // let newColor = `rgb(${rVal}, 0, ${bVal})`;
+          if (index === 9) {
+            man.attr('stroke', 'blue')
+          }
           man.transition()
           .duration(1000)
           .ease(d3.easeLinear)
