@@ -51,6 +51,9 @@ const court = d3.select('#container')
                 .style('background-image', 'url(svgs/ultimate.svg)')
                 .style('background-size', 'cover')
                 .style('background-color', 'rgb(47, 71, 62)')
+                .style('font-size', '12px')
+                .style('user-select', 'none')
+                .style('cursor', 'pointer')
                 .attr('width', 500)
                 .attr('height',  470)
                 .style('border', '3px outset grey')
@@ -103,7 +106,7 @@ function placeOffender() {
                      .attr('x', xy[0])
                      .attr('y', xy[1])
                      .attr("dx", function(d){return -6})
-                     .attr("dy", function(d){return -20})
+                     .attr("dy", function(d){return 4})
 
   }
 
@@ -126,8 +129,8 @@ function placeDefender() {
                       .attr('cx', xy[0])
                       .attr('cy', xy[1])
                       .attr('r', 15)
-                      .attr('fill', 'black')
-                      .attr('stroke', 'white')
+                      .attr('fill', 'white')
+                      .attr('stroke', 'black')
                       .attr('stroke-width', '3');
 
     defense.push(player);
@@ -144,7 +147,7 @@ function placeDefender() {
                      .attr('x', xy[0])
                      .attr('y', xy[1])
                      .attr("dx", function(d){return -6})
-                     .attr("dy", function(d){return -20})
+                     .attr("dy", function(d){return 4})
   }
 }
 
