@@ -209,6 +209,6 @@ function restore() {
   defense = [];
   payload.bench = [];
   shooter = false;
-  court.selectAll('circle.player').remove();
+  court.selectAll('*').remove();
 }
 //
