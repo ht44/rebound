@@ -93,11 +93,13 @@ function placeOffender() {
       (xy[0] / 10),(xy[1] / 10), true, false
     ));
     offense[offense.length - 1].attr('id', payload.bench.length - 1);
+    offense[offense.length - 1].property('xid', offense.length);
+
     let label = court.append('g')
                      .attr('dx', xy[0])
                      .attr('dy', xy[1])
                      .append('text')
-                     .text(`O${payload.bench.length}`)
+                     .text(`O${offense.length}`)
                      .attr('x', xy[0])
                      .attr('y', xy[1])
                      .attr("dx", function(d){return -6})
@@ -133,11 +135,12 @@ function placeDefender() {
       (xy[0] / 10), (xy[1] / 10), false, false
     ));
     defense[defense.length - 1].attr('id', payload.bench.length - 1);
+    defense[defense.length - 1].property('xid', defense.length);
     let label = court.append('g')
                      .attr('dx', xy[0])
                      .attr('dy', xy[1])
                      .append('text')
-                     .text(`D${payload.bench.length}`)
+                     .text(`D${defense.length}`)
                      .attr('x', xy[0])
                      .attr('y', xy[1])
                      .attr("dx", function(d){return -6})
@@ -184,7 +187,7 @@ function logPayload() {
 
 function handleMouseOver() {
   let prefix = null;
-  let suffix = parseInt(d3.select(this).attr('id'), 10) + 1;
+  let suffix = parseInt(d3.select(this).property('xid'), 10);
   let prob = d3.select(this).property('probability');
   if (d3.select(this).property('isOffense') === true) {
     prefix = 'O'
