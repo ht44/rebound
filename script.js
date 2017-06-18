@@ -41,6 +41,7 @@ class Player {
   }
 }
 
+const banner = document.getElementById('banner');
 const trigger = document.getElementById('run');
 const clear = document.getElementById('clear');
 const container = document.getElementById('container');
@@ -75,15 +76,7 @@ function placeOffender() {
   let xy = d3.mouse(this);
 
   if (offense.length < 5) {
-    // let node = court.append('g')
-    // node.attr('dx', xy[0])
-    //     .attr('dy', xy[1])
-    //     node.append('text')
-    //     .text('hi')
-    //     .attr('x', xy[0])
-    //     .attr('y', xy[1])
-    //     .attr("dx", function(d){return -6})
-    //     .attr("dy", function(d){return -20})
+
     let player = court.append('circle')
                       .attr('class', 'player')
                       .attr('cx', xy[0])
@@ -92,12 +85,23 @@ function placeOffender() {
                       .attr('fill', 'white')
                       .attr('stroke', 'black')
                       .attr('stroke-width', '3')
+                      .property('isOffense', true)
+                      // .on("mouseout", handleMouseOut);
 
     offense.push(player)
     payload.bench.push(new Player(
       (xy[0] / 10),(xy[1] / 10), true, false
     ));
     offense[offense.length - 1].attr('id', payload.bench.length - 1);
+    let label = court.append('g')
+                     .attr('dx', xy[0])
+                     .attr('dy', xy[1])
+                     .append('text')
+                     .text(`O${payload.bench.length}`)
+                     .attr('x', xy[0])
+                     .attr('y', xy[1])
+                     .attr("dx", function(d){return -6})
+                     .attr("dy", function(d){return -20})
 
   }
 
@@ -114,6 +118,7 @@ function placeDefender() {
   d3.event.preventDefault();
   let xy = d3.mouse(this);
   if (defense.length < 5) {
+
     let player = court.append('circle')
                       .attr('class', 'player')
                       .attr('cx', xy[0])
@@ -128,6 +133,15 @@ function placeDefender() {
       (xy[0] / 10), (xy[1] / 10), false, false
     ));
     defense[defense.length - 1].attr('id', payload.bench.length - 1);
+    let label = court.append('g')
+                     .attr('dx', xy[0])
+                     .attr('dy', xy[1])
+                     .append('text')
+                     .text(`D${payload.bench.length}`)
+                     .attr('x', xy[0])
+                     .attr('y', xy[1])
+                     .attr("dx", function(d){return -6})
+                     .attr("dy", function(d){return -20})
   }
 }
 
@@ -163,8 +177,22 @@ function logPayload() {
   //     }
   //   }
   // };
+  d3.selectAll('circle').on("mouseover", handleMouseOver)
   console.log(JSON.stringify(payload));
   // xhr.send(JSON.stringify(payload));
+}
+
+function handleMouseOver() {
+  let prefix = null;
+  let suffix = parseInt(d3.select(this).attr('id'), 10) + 1;
+  let prob = d3.select(this).property('probability');
+  if (d3.select(this).property('isOffense') === true) {
+    prefix = 'O'
+  } else {
+    prefix = 'D'
+  }
+  banner.innerText = `${prefix}${suffix.toString()} | P = ${prob}`;
+  console.log(d3.select(this).property('isOffense'));
 }
 
 function restore() {
