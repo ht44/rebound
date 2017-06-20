@@ -10,7 +10,7 @@ I decided to have each pin leave its label behind as a signature, so that the us
 
 ![Gif](./images/ball.gif?raw=true)
 
-This is the entire applciation:
+This is the entire front-end script:
 
 ```javascript
 'use strict';
