@@ -6,6 +6,8 @@ const payload = {
   bench: new Array()
 }
 
+
+// arbitrary
 const response = [
   {newx: 45, newy: 40, probability: 0.8},
   {newx: 15, newy: 15, probability: 0.1},
@@ -130,8 +132,11 @@ function placeDefender() {
 }
 
 function run() {
+  if (payload.bench.length < 10) {
+    return;
+  }
   // let xhr = new XMLHttpRequest();
-  // xhr.open('POST', 'http://34.197.45.92:8080/predict');
+  // xhr.open('POST', '/predict');
   // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   // xhr.onreadystatechange = () => {
   //   if (xhr.readyState == 4) {
@@ -182,6 +187,7 @@ function restore() {
   defense = [];
   payload.bench = [];
   shooter = false;
+  banner.innerText = 'Display';
   court.selectAll('*').remove();
 }
 //
