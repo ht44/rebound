@@ -6,6 +6,19 @@ const payload = {
   bench: new Array()
 }
 
+const response = [
+  {newx: 45, newy: 40, probability: 0.8},
+  {newx: 15, newy: 15, probability: 0.1},
+  {newx: 15, newy: 5, probability: 0.2},
+  {newx: 11, newy: 33, probability: 0.9},
+  {newx: 40, newy: 5, probability: 0.3},
+  {newx: 10, newy: 5, probability: 0.4},
+  {newx: 19, newy: 7, probability: 0.7},
+  {newx: 14, newy: 23, probability: 0.5},
+  {newx: 37, newy: 2, probability: 0.99},
+  {newx: 26, newy: 18, probability: 0.6}
+];
+
 const rgbValues = [
   'rgb(25, 0, 255)',
   'rgb(50, 0, 225)',
@@ -117,13 +130,13 @@ function placeDefender() {
 }
 
 function run() {
-  let xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://34.197.45.92:8080/predict');
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        let response = JSON.parse(xhr.response);
+  // let xhr = new XMLHttpRequest();
+  // xhr.open('POST', 'http://34.197.45.92:8080/predict');
+  // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  // xhr.onreadystatechange = () => {
+  //   if (xhr.readyState == 4) {
+  //     if (xhr.status == 200) {
+  //       let response = JSON.parse(xhr.response);
         offense.forEach((offender, i) => {
           offender.property('probability', response[offender.attr('id')].probability);
         });
@@ -145,11 +158,11 @@ function run() {
           .attr('cx', response[man.attr('id')].newx * 10)
           .attr('cy', response[man.attr('id')].newy * 10)
         });
-      }
-    }
-  };
+  //     }
+  //   }
+  // };
   d3.selectAll('circle').on("mouseover", handleMouseOver)
-  xhr.send(JSON.stringify(payload));
+  // xhr.send(JSON.stringify(payload));
 }
 
 function handleMouseOver() {
