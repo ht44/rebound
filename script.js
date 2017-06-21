@@ -179,7 +179,6 @@ function handleMouseOver() {
     prefix = 'D'
   }
   banner.innerText = `${prefix}${suffix.toString()} | P = ${prob}`;
-  console.log(d3.select(this).property('isOffense'));
 }
 
 function restore() {
