@@ -6,20 +6,18 @@ const payload = {
   bench: new Array()
 }
 
-
-// arbitrary
-const response = [
-  {newx: 45, newy: 40, probability: 0.8},
-  {newx: 15, newy: 15, probability: 0.1},
-  {newx: 15, newy: 5, probability: 0.2},
-  {newx: 11, newy: 33, probability: 0.9},
-  {newx: 40, newy: 5, probability: 0.3},
-  {newx: 10, newy: 5, probability: 0.4},
-  {newx: 19, newy: 7, probability: 0.7},
-  {newx: 14, newy: 23, probability: 0.5},
-  {newx: 37, newy: 2, probability: 0.99},
-  {newx: 26, newy: 18, probability: 0.6}
-];
+// const response = [
+//   {newx: 45, newy: 40, probability: 0.8},
+//   {newx: 15, newy: 15, probability: 0.1},
+//   {newx: 15, newy: 5, probability: 0.2},
+//   {newx: 11, newy: 33, probability: 0.9},
+//   {newx: 40, newy: 5, probability: 0.3},
+//   {newx: 10, newy: 5, probability: 0.4},
+//   {newx: 19, newy: 7, probability: 0.7},
+//   {newx: 14, newy: 23, probability: 0.5},
+//   {newx: 37, newy: 2, probability: 0.99},
+//   {newx: 26, newy: 18, probability: 0.6}
+// ];
 
 const rgbValues = [
   'rgb(25, 0, 255)',
@@ -61,8 +59,7 @@ const court = d3.select('#container')
                 .style('box-shadow', '4px 6px 33px 0px rgba(0,0,0,0.75)')
                 .on('click', placeOffender)
                 .on('contextmenu', placeDefender);
-
-trigger.addEventListener('click', run);
+trigger.addEventListener('click', logPayload);
 clear.addEventListener('click', restore);
 
 function placeOffender() {
@@ -131,17 +128,19 @@ function placeDefender() {
   }
 }
 
-function run() {
+function logPayload() {
   if (payload.bench.length < 10) {
+    console.log('not enough players');
     return;
   }
-  // let xhr = new XMLHttpRequest();
-  // xhr.open('POST', '/predict');
-  // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  // xhr.onreadystatechange = () => {
-  //   if (xhr.readyState == 4) {
-  //     if (xhr.status == 200) {
-  //       let response = JSON.parse(xhr.response);
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST', 'http://10.8.81.4:9099/predict');
+  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+      console.log(xhr.response);
+      if (xhr.status == 200) {
+        let response = JSON.parse(xhr.response);
         offense.forEach((offender, i) => {
           offender.property('probability', response[offender.attr('id')].probability);
         });
@@ -154,7 +153,7 @@ function run() {
         .sort((a, b) => a.property('probability') - b.property('probability'))
         .forEach((man, index) => {
           if (index === 9) {
-            man.attr('stroke', 'blue')
+            man.attr('stroke', 'rgb(0, 255, 12)')
           }
           man.transition()
           .duration(1000)
@@ -163,11 +162,11 @@ function run() {
           .attr('cx', response[man.attr('id')].newx * 10)
           .attr('cy', response[man.attr('id')].newy * 10)
         });
-  //     }
-  //   }
-  // };
+      }
+    }
+  };
   d3.selectAll('circle').on("mouseover", handleMouseOver)
-  // xhr.send(JSON.stringify(payload));
+  xhr.send(JSON.stringify(payload));
 }
 
 function handleMouseOver() {
@@ -180,6 +179,7 @@ function handleMouseOver() {
     prefix = 'D'
   }
   banner.innerText = `${prefix}${suffix.toString()} | P = ${prob}`;
+  console.log(d3.select(this).property('isOffense'));
 }
 
 function restore() {
